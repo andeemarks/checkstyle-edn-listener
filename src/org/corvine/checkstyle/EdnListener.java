@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AuditListener;
@@ -15,6 +18,7 @@ public class EdnListener extends AutomaticBean implements AuditListener {
     private boolean mCloseOut = false;
     private int mTotalErrors;
     private int mErrors;
+    private List fieldsToRetain = Arrays.asList("source-file", "line", "column", "severity", "message", "source");
 
     public void setFile(String aFileName) throws FileNotFoundException {
         final OutputStream out = new FileOutputStream(aFileName);
@@ -59,13 +63,26 @@ public class EdnListener extends AutomaticBean implements AuditListener {
         return "\"" + eventItem + "\"";
     }
 
+    private String ifAllowed(String fieldId, Object fieldValue) {
+        if (fieldsToRetain.contains(fieldId)) {
+            return ":" + fieldId + " " + fieldValue + " ";
+        }
+
+        return "";
+    }
+
     void printEvent(PrintWriter mWriter, AuditEvent aEvt) {
-        mWriter.println("{:source-file " + quote(aEvt.getFileName())
-//                      + " :line " + aEvt.getLine()
-//                      + " :column " + aEvt.getColumn()
-                      + " :severity " + quote(aEvt.getSeverityLevel())
-//                      + " :message " + quote(aEvt.getMessage())
-//                      + " :source " + quote(aEvt.getSourceName())
+        mWriter.println("{"
+                      + (ifAllowed("source-file",  quote(aEvt.getFileName()))
+                      + ifAllowed("line", aEvt.getLine())
+                      + ifAllowed("column", aEvt.getColumn())
+                      + ifAllowed("severity", quote(aEvt.getSeverityLevel()))
+                      + ifAllowed("message", quote(aEvt.getMessage()))
+                      + ifAllowed("source", quote(aEvt.getSourceName()))).trim()
                       + "}");
+    }
+
+    public void setFields(List fields) {
+        fieldsToRetain = fields;
     }
 }
