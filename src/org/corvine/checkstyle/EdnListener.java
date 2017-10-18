@@ -41,7 +41,7 @@ public class EdnListener extends AutomaticBean implements AuditListener {
     }
 
     public void addError(AuditEvent aEvt) {
-        printEvent(aEvt);
+        printEvent(mWriter, aEvt);
         if (SeverityLevel.ERROR.equals(aEvt.getSeverityLevel())) {
             mErrors++;
             mTotalErrors++;
@@ -49,7 +49,7 @@ public class EdnListener extends AutomaticBean implements AuditListener {
     }
 
     public void addException(AuditEvent aEvt, Throwable aThrowable) {
-        printEvent(aEvt);
+        printEvent(mWriter, aEvt);
         aThrowable.printStackTrace(System.out);
         mErrors++;
         mTotalErrors++;
@@ -59,12 +59,13 @@ public class EdnListener extends AutomaticBean implements AuditListener {
         return "\"" + eventItem + "\"";
     }
 
-    private void printEvent(AuditEvent aEvt) {
+    void printEvent(PrintWriter mWriter, AuditEvent aEvt) {
         mWriter.println("{:source-file " + quote(aEvt.getFileName())
-                      + " :line " + aEvt.getLine()
-                      + " :column " + aEvt.getColumn()
+//                      + " :line " + aEvt.getLine()
+//                      + " :column " + aEvt.getColumn()
                       + " :severity " + quote(aEvt.getSeverityLevel())
-                      + " :message " + quote(aEvt.getMessage())
-                      + " :source " + quote(aEvt.getSourceName()) + "}");
+//                      + " :message " + quote(aEvt.getMessage())
+//                      + " :source " + quote(aEvt.getSourceName())
+                      + "}");
     }
 }
