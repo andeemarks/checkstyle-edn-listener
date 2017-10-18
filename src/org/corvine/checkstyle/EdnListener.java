@@ -10,14 +10,13 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.List;
 
 public class EdnListener extends AutomaticBean implements AuditListener {
     private PrintWriter mWriter = new PrintWriter(System.out);
     private boolean mCloseOut = false;
     private int mTotalErrors;
     private int mErrors;
-    private List fieldsToRetain = Arrays.asList("source-file", "line", "column", "severity", "message", "source");
+    private String[] fieldsToRetain = {"source-file", "line", "column", "severity", "message", "source"};
 
     public void setFile(String aFileName) throws FileNotFoundException {
         final OutputStream out = new FileOutputStream(aFileName);
@@ -63,7 +62,7 @@ public class EdnListener extends AutomaticBean implements AuditListener {
     }
 
     private String ifAllowed(String fieldId, Object fieldValue) {
-        if (fieldsToRetain.contains(fieldId)) {
+        if (Arrays.asList(fieldsToRetain).contains(fieldId)) {
             return ":" + fieldId + " " + fieldValue + " ";
         }
 
@@ -81,7 +80,7 @@ public class EdnListener extends AutomaticBean implements AuditListener {
                       + "}");
     }
 
-    public void setFields(List fields) {
+    public void setFields(String[] fields) {
         fieldsToRetain = fields;
     }
 }

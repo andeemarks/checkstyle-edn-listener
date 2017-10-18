@@ -32,7 +32,7 @@ public class EdnListenerTest {
 
     @Test
     public void shouldOnlyIncludeFieldsWhenSpecified() {
-        listener.setFields(Arrays.asList("source-file", "message", "line"));
+        listener.setFields(new String[]{"source-file", "message", "line"});
         AuditEvent event = new AuditEvent("src", "file", new LocalizedMessage(23, 45, "", "", null, "module-id", org.corvine.checkstyle.EdnListener.class, "Hello"));
         listener.printEvent(stubWriter, event);
         stubWriter.flush();
