@@ -58,7 +58,7 @@ public class EdnListener extends AutomaticBean implements AuditListener {
     private String quote(Object eventItem) {
         return "\"" + eventItem + "\"";
     }
-    
+
     private void printEvent(AuditEvent aEvt) {
         mWriter.println("{:source-file " + quote(aEvt.getFileName())
                       + " :line " + aEvt.getLine()

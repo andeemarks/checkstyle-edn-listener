@@ -1,0 +1,29 @@
+<project name="EdnListener" default="dist" basedir=".">
+    <description>
+        Custom Checkstyle AuditListener outputting EDN (e.g., Clojure) format data.
+    </description>
+
+    <property name="dist" location="dist"/>
+    <property name="classes" location="out/production"/>
+    <property name="src" location="src"/>
+
+    <target name="compile">
+        <javac srcdir="${src}"
+               destdir="${classes}"
+               classpath="lib/checkstyle-7.4-all.jar"
+               debug="on"
+        />
+    </target>
+
+    <target name="clean">
+        <delete file="${dist}/edn-listener.jar"/>
+    </target>
+
+    <target name="dist" depends="clean, compile">
+        <jar destfile="${dist}/edn-listener.jar">
+            <fileset dir="${classes}/checkstyle-edn-listener" excludes="**/Test.class"/>
+            <fileset dir="${src}" includes="**/*.xml"/>
+        </jar>
+    </target>
+
+</project>
