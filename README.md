@@ -1,6 +1,6 @@
 # checkstyle-edn-listener
 A basic Checkstyle [AuditListener](http://checkstyle.sourceforge.net/apidocs/com/puppycrawl/tools/checkstyle/api/AuditListener.html) implementation 
-to output checkstyle results in EDN (https://github.com/edn-format/edn).  
+to output checkstyle results in [EDN](https://github.com/edn-format/edn).  
 
 EDN (Extensible Data Notation) is a superset of the format of the Clojure language.
 
@@ -47,7 +47,7 @@ module of ```Checker``` (see below).
     </module>
 ```
 
-See the [Aeolian Checkstyle config file](https://github.com/andeemarks/aeolian/resources/checkstyle-all.xml) for an example of how the ```BatchingEdnListener```
+See the [Aeolian Checkstyle config file](https://github.com/andeemarks/aeolian/blob/master/resources/checkstyle-all.xml) for an example of how the ```BatchingEdnListener```
 is used.
 
 ## Running
