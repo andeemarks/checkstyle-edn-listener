@@ -9,8 +9,8 @@ of mine: [aeolian](https://github.com/andeemarks/aeolian) which consumes Checkst
 
 There are two main classes you can use:
 
-1. ```[EdnListener](src/org/corvine/checkstyle/EdnListener.java)``` - produces a single EDN map for each checkstyle error observed.
-1. ```BatchingEdnListener(src/org/corvine/checkstyle/BatchingEdnListener.java)``` - produces a single EDN map for each set of errors for the same source file and line number.
+1. [EdnListener](src/org/corvine/checkstyle/EdnListener.java) - produces a single EDN map for each checkstyle error observed.
+1. [BatchingEdnListener](src/org/corvine/checkstyle/BatchingEdnListener.java) - produces a single EDN map for each set of errors for the same source file and line number.
 
 ```EdnListener``` was my first take on this functionality before I realised I needed to 
 collapse all errors for the same file/line key into a single output EDN line - hence
