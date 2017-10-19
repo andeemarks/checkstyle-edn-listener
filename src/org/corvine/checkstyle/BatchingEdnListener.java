@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.util.*;
 
 public class BatchingEdnListener extends AutomaticBean implements AuditListener {
-    private PrintWriter mWriter = new PrintWriter(System.out);
+    PrintWriter mWriter = new PrintWriter(System.out);
     private boolean mCloseOut = false;
     private int mTotalErrors;
     private int mErrors;
@@ -70,7 +70,9 @@ public class BatchingEdnListener extends AutomaticBean implements AuditListener 
         String historyKey = aEvt.getFileName() + "#" + aEvt.getLine();
         if (errorHistory.containsKey(historyKey)) {
             List<AuditEvent> history = (List<AuditEvent>) errorHistory.get(historyKey);
-            history.add(aEvt);
+            if (!duplicateSourceFound(history, aEvt)) {
+                history.add(aEvt);
+            }
 
             errorHistory.put(historyKey, history);
         } else {
@@ -81,6 +83,14 @@ public class BatchingEdnListener extends AutomaticBean implements AuditListener 
             mErrors++;
             mTotalErrors++;
         }
+    }
+
+    private boolean duplicateSourceFound(List<AuditEvent> history, AuditEvent event) {
+        System.out.println(event.getSourceName());
+        return history.stream()                        // Convert to steam
+                .filter(x -> event.getSourceName().equalsIgnoreCase(x.getSourceName()))        // we want "jack" only
+                .findAny()                                      // If 'findAny' then return found
+                .orElse(null) != null;
     }
 
     public void addException(AuditEvent aEvt, Throwable aThrowable) {
