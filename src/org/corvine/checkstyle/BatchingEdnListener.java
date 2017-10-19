@@ -48,13 +48,17 @@ public class BatchingEdnListener extends AutomaticBean implements AuditListener 
         for (String key: historyKeys) {
             String batchedEvent = "";
             List<AuditEvent> events = errorHistory.get(key);
-            batchedEvent = "{" + formatHeader(events.get(0));
+            batchedEvent = "{ " + formatKey(key) + formatHeader(events.get(0));
             for (AuditEvent auditEvent : events) {
                 batchedEvent += formatEventDelta(auditEvent) + " ";
             }
-            batchedEvent = batchedEvent.trim() + "}";
+            batchedEvent = batchedEvent.trim() + " }";
             mWriter.println(batchedEvent);
         }
+    }
+
+    private String formatKey(String key) {
+        return format("key",  quote(key));
     }
 
     private String formatHeader(AuditEvent auditEvent) {
@@ -89,9 +93,7 @@ public class BatchingEdnListener extends AutomaticBean implements AuditListener 
         return "\"" + eventItem + "\"";
     }
 
-    private String format(String fieldId, Object fieldValue) {
-        return ":" + fieldId + " " + fieldValue + " ";
-    }
+    private String format(String fieldId, Object fieldValue) { return ":" + fieldId + " " + fieldValue + " "; }
 
     private String formatEvent(AuditEvent aEvt) {
         return format("source-file",  quote(aEvt.getFileName()))
