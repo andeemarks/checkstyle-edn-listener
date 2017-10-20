@@ -19,6 +19,15 @@ the creation of ```BatchingEdnListener```.
 ```EdnListener``` also has the ability to limit the set of fields produced by
 specifying a list of fields to retain in the output EDN.
 
+## Building
+
+The following instructions assume you have [Apache Ant](http://ant.apache.org/) installed and configured.
+
+```ant dist```
+
+The ```dist``` target will compile the source and package it into a JAR file (```edn-listener.jar```)
+in the ```dist``` directory.
+
 ## Configuration
 
 When using custom audit listeners in Checkstyle, they need to be referenced as a module
@@ -50,11 +59,21 @@ module of ```Checker``` (see below).
 See the [Aeolian Checkstyle config file](https://github.com/andeemarks/aeolian/blob/master/resources/checkstyle-all.xml) for an example of how the ```BatchingEdnListener```
 is used.
 
-## Running
+## Sample Output
 
-The following instructions assume you have [Apache Ant](http://ant.apache.org/) installed and configured.
+### ```BatchingEdnListener```
 
-```ant dist```
+From the above configuration, the output would be stored in ```output.edn```, and would
+contain a number of lines looking like:
 
-The ```dist``` target will compile the source and package it into a JAR file (```edn-listener.jar```)
-in the ```dist``` directory.
+```$xslt
+{ :key "file1#24" :source-file "file1" :line 24 :org.corvine.checkstyle.EdnListener "Hello" }
+```
+
+where the keys are derived as follows:
+
+* ```key``` - the source file and line number concatenated
+* ```source-file``` - the source file containing the Error
+* ```line``` - the line number containing the Error
+* ```[source-name]``` - 1-n uniquely named entries with the class name of the 
+Checkstyle checker producing the error and the error message itself as the value associated with the key
