@@ -61,9 +61,26 @@ is used.
 
 ## Sample Output
 
+## ```EdnListener```
+
+The ```EdnListener``` output looks like:
+
+```$xslt
+{:source-file "file" :line 23 :column 45 :severity "error" :message "Hello" :source "org.corvine.checkstyle.EdnListener"}
+```
+
+where the keys are derived as follows:
+
+* ```source-file``` - the source file containing the Error
+* ```line``` - the line number containing the Error
+* ```column``` - the column containing the Error
+* ```severity``` - the string "error" as warnings are not captured
+* ```message``` - the message describing the error 
+* ```source``` - the class name of the Checkstyle checker producing the error 
+
 ### ```BatchingEdnListener```
 
-From the above configuration, the output would be stored in ```output.edn```, and would
+From the above configuration, the ```BatchingEdnListener``` output would be stored in ```output.edn```, and would
 contain a number of lines looking like:
 
 ```$xslt
